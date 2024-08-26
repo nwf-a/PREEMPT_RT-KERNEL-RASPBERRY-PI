@@ -180,14 +180,20 @@ Install Device Tree blobs:
 sudo cp arch/arm/boot/dts/broadcom/*.dtb /boot/firmware/
 ```
 
-Copy overlays and README:
-
 ```bash
 sudo cp arch/arm/boot/dts/overlays/*.dtb* /boot/firmware/overlays/
 ```
 
 ```bash
 sudo cp arch/arm/boot/dts/overlays/README /boot/firmware/overlays/
+```
+
+## INSTALL KERNEL HEADERS
+
+Install the kernel headers:
+
+```bash
+make -j4 headers_install
 ```
 
 Finally, reboot your Raspberry Pi:
