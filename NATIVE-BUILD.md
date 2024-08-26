@@ -119,7 +119,7 @@ cat ../0001-usb-dwc_otg-fix-system-lockup.patch | patch -p1
 
 ## BUILD CONFIGURATION
 
-For the Raspberry Pi 3, it is recommended to build the 32-bit version, as the 64-bit kernel (rpi-6.6.y) is not compatible with the Raspberry Pi 3.
+For the Raspberry Pi 3, it is recommended to build the 32-bit version, as the 64-bit rt-kernel (rpi-6.6.y-rt) is not compatible with the Raspberry Pi 3.
 
 Prepare the default configuration:
 
