@@ -198,5 +198,5 @@ sudo reboot
 
 ## REFERENCE
 
-- Raspberry Pi : [Raspberry Pi Documentation](https://www.raspberrypi.com/documentation/computers/linux_kernel.html)
-- System lockup patch (RPi 3): [Fix system lockup for RPi 3](https://github.com/kdoren/linux/wiki/Building-PREEMPT_RT-kernel-for-Raspberry-Pi)
+- Raspberry Pi Documentation: [Raspberry Pi Linux Kernel Documentation](https://www.raspberrypi.com/documentation/computers/linux_kernel.html)
+- System Lockup Patch for RPi 3: [Fix System Lockup for RPi 3](https://github.com/kdoren/linux/wiki/Building-PREEMPT_RT-kernel-for-Raspberry-Pi)
