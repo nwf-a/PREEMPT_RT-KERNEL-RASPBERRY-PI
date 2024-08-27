@@ -140,6 +140,7 @@ In the configuration menu:
 - set `CPU Power Management` -> `CPU Frequency Scaling` -> `Default CPUFreq governor` to `performance`
 - set `General` -> `Local version`: change to "-v7-CUSTOM" or something else
 - set `General` -> `Preemption Model` to `Fully Preeemptible Kernel (Real-Time)`
+- set `General` -> `Timers subsystem` -> `Timer tick handling` -> `Full dynticks system (tikcless)`
 - Save and exit
 
 ## BUILD THE KERNEL
