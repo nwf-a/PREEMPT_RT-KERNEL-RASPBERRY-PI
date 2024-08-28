@@ -24,6 +24,8 @@ cyclictest -l100000000 -m -Sp99 -i200 -h400 -q
 
 The latency test duration is approximately 5 hours and 33 minutes.
 
+Note: run the script for the latency-test as root
+
 ### Latency Test Results
 
 |       | Cycle Samples | Min Latencies (µs) | Max Latencies (µs) | Avg Latencies (µs) |
