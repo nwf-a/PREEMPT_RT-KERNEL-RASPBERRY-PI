@@ -1,25 +1,29 @@
-# NATIVELY BUILD KERNEL LINUX
+# Building a Real-Time Kernel for Raspberry Pi
+
+## NATIVE BUILD
 
 Sources:
 
 - Kernel Source: [Linux Kernel Repository](https://github.com/raspberrypi/linux)
 - RT Patch Archive: [PREEMPT_RT Patch Archive](https://mirrors.edge.kernel.org/pub/linux/kernel/projects/rt/6.6/older/)
 
-## Update
+## PREREQUISITES
 
-Update the package index:
+### UPDATE AND UPGRADE
+
+First, update your package index:
 
 ```bash
 sudo apt update
 ```
 
-Upgrade all installed packages to their latest versions, if necessary:
+and upgrade installed packages, if necessary:
 
 ```bash
 sudo apt full-upgrade
 ```
 
-## INSTALL DEPENDENCIES AND TOOLS
+### INSTALL DEPENDENCIES AND TOOLS
 
 Install the required dependencies and tools:
 
@@ -27,7 +31,7 @@ Install the required dependencies and tools:
 sudo apt install git bc bison flex libssl-dev make libncurses5-dev
 ```
 
-## DOWNLOAD SOURCE CODE AND PATCH
+## SOURCE CODE AND PATCH
 
 Create a directory to store the source code and patches:
 
@@ -41,13 +45,15 @@ Move to the `develop` folder:
 cd ~/develop
 ```
 
+### DOWNLOAD SOURCE CODE
+
 Clone the latest Raspberry Pi kernel source code:
 
 ```bash
 git clone --depth=1 https://github.com/raspberrypi/linux
 ```
 
-or download the stable kernel source as a zip file:
+or alternatively, download the stable kernel source as a zip file:
 
 ```bash
 wget https://github.com/raspberrypi/linux/archive/refs/tags/stable_20240529.zip
@@ -55,7 +61,7 @@ wget https://github.com/raspberrypi/linux/archive/refs/tags/stable_20240529.zip
 
 In this example, I will use the stable kernel.
 
-Unzip the source:
+Unzip the source code:
 
 ```bash
 unzip stable_20240529.zip
@@ -77,6 +83,8 @@ PATCHLEVEL = 6
 SUBLEVEL = 31
 ```
 
+### DOWNLOAD PATCH
+
 The kernel version is 6.6.31. Download the RT patch for this version.
 
 Return to the previous directory:
@@ -97,7 +105,7 @@ Additionally, download the patch for system lockup (for Raspberry Pi 3 only):
 wget https://raw.githubusercontent.com/kdoren/linux/rpi-5.10.35-rt/0001-usb-dwc_otg-fix-system-lockup.patch
 ```
 
-## APPLY THE PATCH
+## PATCHING THE KERNEL
 
 Navigate to the kernel source directory:
 
@@ -117,7 +125,7 @@ Apply the system lockup patch (RPi 3 Only):
 cat ../0001-usb-dwc_otg-fix-system-lockup.patch | patch -p1
 ```
 
-## BUILD CONFIGURATION
+## KERNEL CONFIGURATION
 
 For the Raspberry Pi 3, it is recommended to build the 32-bit version, as the 64-bit rt-kernel (rpi-6.6.y-rt) is not compatible with the Raspberry Pi 3.
 
@@ -197,10 +205,109 @@ Install the kernel headers:
 make -j4 headers_install
 ```
 
-Finally, reboot your Raspberry Pi:
+then, reboot your raspberry:
 
 ```bash
 sudo reboot
+```
+
+Check the kernel version:
+
+```bash
+uname -a
+```
+
+Output:
+
+```text
+Linux raspberrypi 6.6.31-rt31-v7-CUSTOM #1 PREEMPT_RT Mon Aug 26 11:50:20 WIB 2024 armv7l GNU/Linux
+```
+
+## OPTIMIZING REAL-TIME PERFORMANCE
+
+### ADD isolcpus KERNEL PARAMETER
+
+To `optimize` the `real-time performance` of your Raspberry Pi, you can isolate specific CPUs using the `isolcpus` kernel parameter. This will prevent the specified CPUs from being used by the default scheduler, allowing them to be dedicated to real-time tasks.
+
+1. Open the boot configuration file for editing:
+
+    ```bash
+    sudo nano /boot/firmware/cmdline.txt
+    ```
+
+2. Add `isolcpus=1,2,3` at the end of the line.
+
+    ```text
+    isolcpus=1,2,3
+    ```
+
+    The file should look something like this:
+
+    ```text
+    console=serial0,115200 console=tty1 root=PARTUUID=xxxxxxxx-02 rootfstype=ext4 fsck.repair=yes rootwait quiet splash plymouth.ignore-consoles cfg80211.ieee80211_regdom=ID isolcpus=1,2,3
+    ```
+
+3. Save and exit the editor: Press `Ctrl + X`, then `Y`, and `Enter`.
+4. Reboot to apply the changes:
+
+    ```bash
+    sudo reboot
+    ```
+
+## Performance Governor Settings
+
+The `PREEMPT_RT` kernel is built with the CPU governor configured to `performance`. However, Raspberry Pi OS might include a startup script that changes this setting to `ondemand`.
+
+For `real-time` applications that require the `performance` governor, you will need to `disable` this script. The service responsible for this is named `raspi-config`, which is different from the `raspi-config` configuration tool.
+
+Check the current CPU governor setting:
+
+```bash
+cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+```
+
+Output:
+
+```text
+ondemand
+ondemand
+ondemand
+ondemand
+```
+
+Check if the `raspi-config` service is running:
+
+```bash
+service --status-all | grep raspi-config
+```
+
+Output:
+
+```text
+[ + ]  raspi-config
+```
+
+Install the `rcconf` package and use it to `disable` the `raspi-config` service:
+
+```bash
+sudo apt -y install rcconf
+sudo rcconf --off raspi-config
+reboot
+```
+
+Check the New Setting:
+
+```bash
+cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+```
+
+Output:
+
+```output
+performance
+performance
+performance
+performance
 ```
 
 ## REFERENCE
