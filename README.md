@@ -12,12 +12,12 @@ This guide provides step-by-step instructions for building and installing a PREE
 The latency plots are generated using `gnuplot` with the `mklatencyplot` script from `OSADL`. The `cyclictest` command is executed with the following parameters:
 
 ```bash
-cyclictest -l100000000 -m -Sp99 -i200 -h400 -q
+cyclictest -l100000000 -m -Sp90 -i200 -h400 -q
 ```
 
 - `-l100000000`: Sets the total number of iterations to 100 million. This ensures the latency is measured across many cycles for accuracy.
 - `-m`: Enables maximum latency reporting, providing detailed statistics, including the highest latency observed.
-- `-Sp99`: Sets the process priority to 99. Higher values indicate greater priority, which helps in minimizing latency.
+- `-Sp90`: Sets the process priority to 90. Higher values indicate greater priority, which helps in minimizing latency.
 - `-i200`: Defines the measurement interval as 200 µs (microseconds), recording latency every 200 µs.
 - `-h400`: Sets the maximum latency to monitor at 400 µs. Latencies exceeding this value will be reported.
 - `q`: Runs `cyclictest` in quiet mode to produce a streamlined output focusing on essential data.
