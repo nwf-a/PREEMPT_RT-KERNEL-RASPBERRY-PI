@@ -9,7 +9,7 @@ This guide provides step-by-step instructions for building and installing a PREE
 
 ## Latency Test
 
-The latency plots are generated using `gnuplot` with the `mklatencyplot` script from `OSADL`. The `cyclictest` command is executed with the following parameters:
+The latency plots are generated using `gnuplot` with a script based on `mklatencyplot` from `OSADL`. The `cyclictest` command is executed with the following parameters:
 
 ```bash
 cyclictest -l100000000 -m -Sp90 -i200 -h400 -q
@@ -21,10 +21,6 @@ cyclictest -l100000000 -m -Sp90 -i200 -h400 -q
 - `-i200`: Defines the measurement interval as 200 µs (microseconds), recording latency every 200 µs.
 - `-h400`: Sets the maximum latency to monitor at 400 µs. Latencies exceeding this value will be reported.
 - `q`: Runs `cyclictest` in quiet mode to produce a streamlined output focusing on essential data.
-
-The latency test duration is approximately 5 hours and 33 minutes.
-
-Note: run the script for the latency-test as root
 
 ### Latency Test Results
 
