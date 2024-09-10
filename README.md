@@ -9,7 +9,7 @@ This guide provides step-by-step instructions for building and installing a PREE
 
 ## Latency Test
 
-The latency plots are generated using `gnuplot` with a script based on `mklatencyplot` from `OSADL`. The `cyclictest` command is executed with the following parameters:
+The `cyclictest` command is executed with the following parameters:
 
 ```bash
 cyclictest -l100000000 -m -Sp90 -i200 -h400 -q
@@ -22,14 +22,18 @@ cyclictest -l100000000 -m -Sp90 -i200 -h400 -q
 - `-h400`: Sets the maximum latency to monitor at 400 µs. Latencies exceeding this value will be reported.
 - `q`: Runs `cyclictest` in quiet mode to produce a streamlined output focusing on essential data.
 
+The latency plots are generated using `gnuplot` with a script based on `mklatencyplot` from `OSADL`.
+
 ### Latency Test Results
+
+![Test-result](Image/plot.png)
 
 |       | Cycle Samples | Min Latencies (µs) | Max Latencies (µs) | Avg Latencies (µs) |
 |-------|---------------|--------------------|--------------------|--------------------|
-| CPU 0 |   100000000   |         ???        |        ????        |       ??????       |
-| CPU 1 |   100000000   |         ???        |        ????        |       ??????       |
-| CPU 2 |   100000000   |         ???        |        ????        |       ??????       |
-| CPU 3 |   100000000   |         ???        |        ????        |       ??????       |
+| CPU 0 |   100000000   |          4         |        116         |          6         |
+| CPU 1 |   100000000   |          4         |         76         |          6         |
+| CPU 2 |   100000000   |          4         |         88         |          6         |
+| CPU 3 |   100000000   |          4         |         71         |          6         |
 
 ## References
 
